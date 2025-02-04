@@ -31,7 +31,7 @@
         1. Sıfır değer bölgesin de öğrenme gerçekleşmez çünkü o bölgede türev değeri sıfırdır. Bu durumu düzeltmek için **Leaky ReLU** kullanılır. Leaky ReLU'da sıfıra yakın değer verilirse sızıntı değer 0 değil de 0,01 gibi küçük sayılar verilir. Böylece 0'a yakın ama 0 olmayan değerlerde ReLU'da ölen ggradyanları yaşatmış oluruz.
         2. ReLU'da pek çok nöron negatif değer üretirse, türev sıfır olur ve nöronlar güncellenemez aksine ReLU'nun çıktısı sınırsız da büyüyebilir; eğer ağırlıklar çok büyürse öğrenme süreci bozulabilir.
 
-| ![Resim 1](https://via.placeholder.com/150) | ![Resim 2](https://via.placeholder.com/150) | ![Resim 3](https://via.placeholder.com/150) |
+| ![Resim 1](https://miro.medium.com/v2/resize:fit:828/format:webp/1*E7x6Tz_e5y-xL32qA-bVfA.png) | ![Resim 2]https://miro.medium.com/v2/resize:fit:828/format:webp/1*E7x6Tz_e5y-xL32qA-bVfA.png) | ![Resim 3](https://miro.medium.com/v2/resize:fit:828/format:webp/1*E7x6Tz_e5y-xL32qA-bVfA.png) |
 |:--:|:--:|:--:|
 | **Resim 1 Başlık** | **Resim 2 Başlık** | **Resim 3 Başlık** |
 | *Bu üç resim hakkında ekstra açıklama satırı.* |  |  |

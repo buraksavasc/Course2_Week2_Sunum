@@ -33,5 +33,29 @@
 
 | ![Resim 1](https://miro.medium.com/v2/resize:fit:1400/format:webp/1*sCasook3f4KX7J8cSeAXww.png) | ![Resim 2](https://miro.medium.com/v2/resize:fit:640/format:webp/1*kh22MSwUHPhuur1l6QyYoQ.png) | ![Resim 3](https://miro.medium.com/v2/resize:fit:828/format:webp/1*m_0v2nY5upLmCU-0SuGZXg.png) |
 |:--:|:--:|:--:|
-| **Doğrusal Fonksiton ve Türevi** | **Sigmoid Fonksiyonu ve Türevi** | **ReLU fonksiyonu ve Türevi** |
+| **Doğrusal Fonksiyon ve Türevi** | **Sigmoid Fonksiyonu ve Türevi** | **ReLU fonksiyonu ve Türevi** |
 
+## Çoklu  Sınıflandırma
+   - Eğer çıktımızın olabileceği sınıf iki değil de ikiden fazla ise bu bir çoklu sınıflandırma görevidir yani ikiden fazla sınıfa sahip bir sınıflandırma görevidi. Bir nesnenin bir sınıflandırma alabileceği varsayımını yapar. Örnek olarak portakal,elma ve armut içeren meyve resimleri kümesini etiketlemek olacaktır. 
+    ![Resim5](https://miro.medium.com/v2/resize:fit:828/format:webp/1*zC8tszLffnQNduZBI4O6CQ.png) 
++ ## Softmax Regresyonu 
+    - Çoklu sınıf problemlerinde çıktı katmanı olarak kullandığımız aktivasyon fonksiyonu softmax regresyonudur. Lojistik regresyonun genelleştirilmiş halidir. Genel formülü:
+        P(y = j|x) = aj = e^zj/(e^z1 + e^z2 + ..... + e^zN) burada j. sınıf için olasılığı görüyoruz. Olasılığı en yüksek olan değer bizim o örnek için tahmin edilen sınıfımız oluyor. 
+    - Eğer tahminimiz 1'e yakın olursa bu bir iyi tahmin olur 0'a yaklaştıkça kötüleşir. 
+    - Belirtilmesi gerektir ki aynı anda yalnızca bir sınıfı tahmin eder yani çok sınıflı bir modeldir, çok çıktılı değildir.
+    - a1 + a2 + .... + aN = 1 olmak zorundadır.
++ ## Softmax Regresyonun Kayıp Fonksiyonu:
+    - Maliyet fonksiyonu olarak **Çapraz Entropi** kullanılır. Eğer verilen eğitim setinde çıktıda j.sınıfta en yüksek olasılık değeri çıkmışsa bunun maliyetini hesaplamamız için yapmamız gereken çıkan aj'yi logaritmanın içine koyup negatifini hesaplamak. yani maliyetimiz loss(kayıp) = log(aj)'dir.Verilen tüm eğitim setin bu çapraz entropileri hesaplanır ve böylece toplam çapraz entropiyi bulmuş oluruz.
+    - ### Çapraz Entropinin Avantajı
+        Çapraz entropinin bir avantajı değerlerimiz sıfıra yaklaştıkça bunun kaybını katlanarak arttırmasıdır. Eğer en küçük kareler yöntemi kullansaydık 0'a çok yakın olsa bile bu kayıp katlanarak artmazdı fakat bizim istediğimiz 0'a yakın olan yani kötü bir tahminin iyi bir kayıp verip bunun gradyanıyla düzeltilmesidir. Çünkü çapraz entropide bulduğumuz değerin türevi yüksek olup bunu düzeltmesi çok daha kolay olacaktır. Kısaca doğru sınıfları güçlü ödüllendirir, yanlışları ağır cezalandırır.
+    ![Resim6](https://ml-cheatsheet.readthedocs.io/en/latest/_images/cross_entropy.png)
+    
++ ## Softmax Regresyonunun Kodlanması
+    - ### 1.Yöntem
+        - ilk olarak çıktı katmanının aktivasyonunu softmax yaparız --> model = Sequential([...., Dense(units = 10,activation = 'softmax')])
+        - sonra compile'da maliyet fonksiyonumuzu SparseCategoricalCrossentropy olarak tanıtırız --> loss = model.compile(SparseCategoricalCrossentropy())
+        - loss = - log(aj) olur.
+    - ### 2. Yöntem
+        - Diğer yöntemden farklı olarak çıktı katmanının aktivasyon fonksiyonunu sayısal yuvarlama hatalarını azaltmak için 'linear' yapar --> model = Sequential([...., Dense(units = 10,activation = 'linear')])  
+        - Maliyet fonksiyonumuzda SparseCategoricalCrossentropy'nin içine from_logits parametresini yazıp True'ya eşitleriz -->  SparseCategoricalCrossentropy olarak tanıtırız --> loss = model.compile(SparseCategoricalCrossentropy(from_logits = True))
+        - Bu yöntemde amaç küçük sayılar çıkınca sebep olduğu yuvarlama hatalarını azaltmak
